@@ -16,9 +16,15 @@ If you want to know more about [CKAN][] and its Roadmap process see: <http://cka
 
 ## See the current ideas
 
-Ideas are just issues in the issue tracker
+Ideas are just issues in the issue tracker.
 
-* See the [full list of "open" ideas][issues]
+**See the [full list of "open" ideas][issues]**
+
+Here is an alternative "columnar" view on the "open ideas" that is easier to view:
+
+**[Ideas issues in Kanban layout][kanban]**
+
+[kanban]: https://waffle.io/ckan/ideas-and-roadmap
 
 ## Want to propose something?
 
