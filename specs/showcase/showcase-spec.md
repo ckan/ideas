@@ -19,26 +19,22 @@ Currently, Related Items exist in CKAN core. A summary of the current technical 
 ## Proposal
 Related Items will be broken out of CKAN core into a separate extension called 'ckanext-showcase' that will make them first-order objects within CKAN.
 
-### A new name
-It isn't immediately clear that Related Items refer to examples of data in-use. I suggest that individual Related Items are renamed **Show & Tell** items that can be collected into featured **Showcase** collections by dataset publishers and site sysadmins (perhaps also by Group and Organization owners).
-
-Show & Tell is informal enough to encourage users to share all instances of data reuse, not just what they might consider their best efforts.
-It's a verb rather than noun and doesn't imply any specific application (it's not a specific type of reuse like 'Apps & Ideas')
-Site admins and dataset publishers can promote the best S&T items by featuring them in Showcase collections.
+### Naming the feature
+It isn't immediately clear that 'Related Items' refer to examples of data in-use. For now, we'll refer to an individual Related Item as a **Reuse**. Reuses can be featured and thus collected into **Showcase** collections. Showcases are list of reuses curated by dataset publishers, with a dataset showcase linked from the main dataset page, and by site sysadmins, as a site-wide top level showcase. (Perhaps also by Group and Organization owners.)
 
 ### Site visitor
-Users will be able to search for and discover Show & Tell items from dataset pages, and from the top-level site Showcase. Also from Organization and Group pages, if a Showcase collection feature is integrated at that level.
+Users will be able to search for and discover reuses from dataset pages, and from the top-level site Showcase. Also from Organization and Group pages, if a Showcase collection feature is integrated at that level.
 
 ### All account users
-Users with accounts will be able to create Show & Tell items and relate them to none or many datasets. They will be the owners of the S&T item. A page listing the S&T items they have created will be linked from their dashboard ('My Show & Tell') where they can edit and delete their S&T items.
+Users with accounts will be able to Reuse items and relate them to none or many datasets. They will be the owners of the Reuse item. A page listing all Reuse items they have created will be linked from their dashboard ('My Reuses') where they can edit and delete their items.
 
 ### Dataset publishers
-Publishers will be able to feature Show & Tell items in a Showcase linked from their dataset page. Optionally, a dataset owner could allow a link/filter from the dataset Showcase page that shows all S&T items associated with the dataset.
+Publishers will be able to feature Reuse items that associate with their dataset in a Showcase linked from their dataset page. Optionally, a dataset owner could allow a link/filter from the dataset Showcase page that shows all Reuse items associated with the dataset.
 
-Dataset publishers will be notified when a new S&T item has been created that relates to their dataset, so they can decide whether to promote it in their Showcase. Notifications could reuse the existing activity streams, dashboard and email notifications system.
+Dataset publishers will be notified when a new Reuse item has been created that relates to their dataset, so they can decide whether to promote it in their Showcase. Notifications could reuse the existing activity streams, dashboard and email notifications system.
 
 ### Site owners
-Site owners will be able to feature Show & Tell items in a site-wide, top-level Showcase linked from the main navigation. This will be search and filterable and link through to individual S&T item pages. Site owners will need an admin page listing all S&T items allowing them to promote or remove them if necessary.
+Site owners will be able to feature Reuse items in a site-wide, top-level Showcase linked from the main navigation. This will be search and filterable and link through to individual Reuse item pages. Site owners will need an admin page listing all Reuse items allowing them to promote or remove them if necessary.
 
 ### User stories
 
