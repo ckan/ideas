@@ -24,7 +24,7 @@ Related Items will be broken out of CKAN core into a separate extension called '
 
 
 ### Naming the feature
-It isn't immediately clear that 'Related Items' refer to examples of data reuse. For now, we'll refer to an individual Related Item as a **Reuse**. Reuses can be featured by site maintainers and thus collected into **Showcase** collections. A site-wide top-level showcase would list all featured reuses in the site. A dataset showcase, linked from the main dataset page, would list all reuses associated with that dataset. (Perhaps also grouped with Groups and Organizations.)
+It isn't immediately clear that 'Related Items' refer to examples of data reuse. For now, we'll refer to an individual Related Item as a **Reuse**. Reuses can be featured by site maintainers and thus collected into **Showcase** collections. A site-wide top-level showcase would list all featured reuses in the site. A dataset showcase, linked from the each dataset page, would list all reuses associated with that dataset. (Perhaps also grouped with Groups and Organizations.)
 
 
 ### Implement in stages
