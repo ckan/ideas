@@ -1,6 +1,6 @@
 # CKAN Showcase extension
 
-Allow users to create, edit and delete related item objects that demonstrate data in-use. These objects can relate to none or many datasets. Related items can be promoted to feature in collections by dataset owners, displayed in the dataset context, and site sysadmin, displayed in a top-level, site-wide Showcase.
+Allow users to create, edit and delete related item objects that demonstrate data in-use. These objects can relate to none or many datasets. Related items can be promoted by dataset publishers to feature in a showcase collection linked from their dataset page. Similarly, site admins will be able to promote related items to be listed in a top-level, site-wide showcase.
 
 Previous discussion of the current situation and a proposed new approach for a Related Item extension can be found here: [github.com/ckan/ckan/wiki/Spec:-Related-Items](https://github.com/ckan/ckan/wiki/Spec:-Related-Items).
 
