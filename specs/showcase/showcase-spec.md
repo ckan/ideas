@@ -27,6 +27,30 @@ Related Items will be broken out of CKAN core into a separate extension called '
 It isn't immediately clear that 'Related Items' refer to examples of data reuse. For now, we'll refer to an individual Related Item as a **Reuse**. Reuses can be featured by site maintainers and thus collected into **Showcase** collections. A site-wide top-level showcase would list all featured reuses in the site. A dataset showcase, linked from the main dataset page, would list all reuses associated with that dataset. (Perhaps also grouped with Groups and Organizations.)
 
 
+### Implement in stages
+The extension could be implemented in stages that build on each other, each stage finishing up a complete and useful feature.
+
+Stage 1: Related Items would be pulled out of core and reimplemented as an extension, giving each item its own page that links to its associated datasets, and each dataset a list of associated reuses. At this point only site maintainers would be able to create reuse items. All newly added items are essentially 'featured' at this stage.
+
+Stage 2: Some way for the public to submit or directly add reuse items themselves. See below for possible methods of submission. Note that some of these methods may require notification and moderation by a site admin before an item is featured in the context of a dataset page or a site-wide showcase.
+
+Stage 3: A standalone Showcase site where the community of data reusers can add examples of dataset reuse from many separate sources. An extension running on each CKAN site may interact with the standalone Showcase to update its own catalogue of reuses.
+
+
+### Adding Reuse items
+There are a number of ways to add new Reuses examples to a CKAN instance. These are listed in order of increasing complexity to implement.
+
+1. Directly request submissions and provide an email address or link to the website's general contact form. Site maintainers collect the info and create new Reuse items for the instance.
+
+2. A Reuse submission form (no login required) collects Reuse details and sends it to a moderation queue. A site maintainer will use a simple moderation UI to sort through and publish appropriate submissions.
+
+3. Users can create a CKAN account and add their own Reuse examples directly to a moderation queue. Site admins are notified of new reuses and would need to approve them for display with dataset pages and in the site-wide showcase.
+
+4. Users can create a CKAN account and add Reuse examples that are published on the site without moderation by a site maintainer. Reuses are community-moderated with a 'Report abuse' flag. This may require a large and active user community.
+
+3 & 4 would allow users to have their own accounts for viewing and potentially administrating their Reuse items.
+
+
 ### Roles
 
 #### Site visitor
