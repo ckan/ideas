@@ -38,7 +38,7 @@ Publishers will be able to feature Show & Tell items in a Showcase linked from t
 Dataset publishers will be notified when a new S&T item has been created that relates to their dataset, so they can decide whether to promote it in their Showcase. Notifications could reuse the existing activity streams, dashboard and email notifications system.
 
 ### Site owners
-Site owners will be able to feature Show & Tell items in a site-wide, top-level Showcase linked from the main navigation. This will be search and filterable and link through to individual S&T item pages. Site owners will need an admin page listing all S&T items so they can promote and remove them.
+Site owners will be able to feature Show & Tell items in a site-wide, top-level Showcase linked from the main navigation. This will be search and filterable and link through to individual S&T item pages. Site owners will need an admin page listing all S&T items allowing them to promote or remove them if necessary.
 
 ### User stories
 

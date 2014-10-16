@@ -47,12 +47,14 @@ Other names used include:
 ## Interesting examples
 Bespoke examples and lists that link through to individual reuse pages:
 * https://www.data.gouv.fr/fr/reuses/ - This looks like a custom data catalogue. The reuse list links through to individual pages for each reuse that list the datasets used, e.g. https://www.data.gouv.fr/fr/reuses/mapado/
-* http://data.gov.uk/apps/mot-near-me d.g.u links to individual reuses and lists datasets used. Provides a 'Flag as offensive' action.
+* http://data.gov.uk/apps/mot-near-me - links to individual reuses and lists datasets used. Provides a 'Flag as offensive' action.
 * http://datos.gob.mx/historias/ List of reuse stories that link through to individual pages listing datasets used.
 * http://open-data.okfn.gr/applications/main Links through to individual pages
 * http://datospublicos.gob.ar/aplicaciones Has a list of apps, best rated and most recent. Opens app details in a lightbox.
 * https://data.qld.gov.au/case-studies/pocket-zoner Bespoke case-studies page.
 * http://opendata.admin.ch/de/apps Lists reuses and displays the datasets used.
+
+A few instances list and link to the datasets used for each reuse. Many reuses have more than one dataset, though few use more than ten. http://data.gouv.fr has a large number of reuse examples (898) that can be filtered by the number of datasets used. One example uses 150 datasets, though this is an outlier as the next most populous reuse on that site having only 19 datasets. Only 6 have more than 10 datasets, and most have one or two (842)
 
 ## Reuse requests
 Instances that request reuse submissions via a form, general contact page or email link:
