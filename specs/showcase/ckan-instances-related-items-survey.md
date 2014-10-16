@@ -59,9 +59,10 @@ A few instances list and link to the datasets used for each reuse. Many reuses h
 ## Reuse requests
 Instances that request reuse submissions via a form, general contact page or email link:
 * http://daten.berlin.de/anwendungen - General contact page
-* http://opendata.aragon.es/portal/envio-aplicaciones
+* http://opendata.aragon.es/portal/envio-aplicaciones - Form submission
 * http://dados.gov.br/aplicativos/ - Form submission (http://dados.gov.br/aplicativos/envie/)
 * http://data.gc.ca/eng/apps - Links to 'Share your app' and 'Suggest an app' forms
+* http://data.gc.ca/eng/showcase - Links to 'Show Us What You've Done!' - a web form
 * http://data.gov.au/related - Default installation that solicits submissions via email
 * https://www.data.gv.at/anwendung-einreichen/ - Form submission
 * http://www.dati.gov.it/node/add/applicazione - Form submission
@@ -70,3 +71,7 @@ Instances that request reuse submissions via a form, general contact page or ema
 * http://donnees.ville.montreal.qc.ca/applications/suggestions-dapplications/ - Form submission
 * http://opendatacanarias.es/node/add/aplicacion - A well thought through submission form
 * http://opendata.caceres.es/aplicaciones - Requests submissions via email
+* http://www.amsterdamopendata.nl/ - Requests 'Ideas' via a form, and App submissions can be added via an account
+* https://www.data.gouv.fr - Users can contribute new 'Reuses' via an account
+* http://data.gov.uk/apps - Users can add an app via a 'Login to add your app' button linking to an account login
+* http://www.govdata.de - From the Apps index page: 'As a registered user you can register an app here.'
