@@ -1,11 +1,13 @@
 # CKAN Showcase extension
 
-Allow users to create, edit and delete related item objects that demonstrate data in-use. These objects can relate to none or many datasets. Related items can be promoted by dataset publishers to feature in a showcase collection linked from their dataset page. Similarly, site admins will be able to promote related items to be listed in a top-level, site-wide showcase.
+Allow users to create, edit and delete related item objects that demonstrate data reuse. These objects can relate to none or many datasets. Related items can be promoted by dataset publishers to feature in a showcase collection linked from their dataset page. Similarly, site admins will be able to promote related items to be listed in a top-level, site-wide showcase.
 
 Previous discussion of the current situation and a proposed new approach for a Related Item extension can be found here: [github.com/ckan/ckan/wiki/Spec:-Related-Items](https://github.com/ckan/ckan/wiki/Spec:-Related-Items).
 
+
 ## Current implementation
 Currently, Related Items exist in CKAN core. A summary of the current technical implementation can be seen here: [github.com/ckan/ckan/wiki/Spec:-Related-Items#summary-of-the-current-implementation](https://github.com/ckan/ckan/wiki/Spec:-Related-Items#summary-of-the-current-implementation).
+
 
 ### Some problems with the current implementation:
 * It's hard for users to discover Related Items by search and browsing
@@ -16,25 +18,31 @@ Currently, Related Items exist in CKAN core. A summary of the current technical 
 * Related Items aren't first-order objects and don't have their own pages
 * Related Items can't be extended with extra fields
 
+
 ## Proposal
-Related Items will be broken out of CKAN core into a separate extension called 'ckanext-showcase' that will make them first-order objects within CKAN.
+Related Items will be broken out of CKAN core into a separate extension called 'ckanext-showcase' that will make them first-order objects within CKAN, and resolve issues with the current implementation.
+
 
 ### Naming the feature
-It isn't immediately clear that 'Related Items' refer to examples of data in-use. For now, we'll refer to an individual Related Item as a **Reuse**. Reuses can be featured and thus collected into **Showcase** collections. Showcases are list of reuses curated by dataset publishers, with a dataset showcase linked from the main dataset page, and by site sysadmins, as a site-wide top level showcase. (Perhaps also by Group and Organization owners.)
+It isn't immediately clear that 'Related Items' refer to examples of data reuse. For now, we'll refer to an individual Related Item as a **Reuse**. Reuses can be featured by site maintainers and thus collected into **Showcase** collections. A site-wide top-level showcase would list all featured reuses in the site. A dataset showcase, linked from the main dataset page, would list all reuses associated with that dataset. (Perhaps also grouped with Groups and Organizations.)
 
-### Site visitor
+
+### Roles
+
+#### Site visitor
 Users will be able to search for and discover reuses from dataset pages, and from the top-level site Showcase. Also from Organization and Group pages, if a Showcase collection feature is integrated at that level.
 
-### All account users
-Users with accounts will be able to Reuse items and relate them to none or many datasets. They will be the owners of the Reuse item. A page listing all Reuse items they have created will be linked from their dashboard ('My Reuses') where they can edit and delete their items.
+#### Data reuser
+A data reuser will be able to submit/add Reuse items and relate them to none or many datasets. A data reuser may be able to have a user account that lists they're reuse items.
 
-### Dataset publishers
-Publishers will be able to feature Reuse items that associate with their dataset in a Showcase linked from their dataset page. Optionally, a dataset owner could allow a link/filter from the dataset Showcase page that shows all Reuse items associated with the dataset.
+#### Dataset publishers
+Publishers will be able see featured Reuse items associate with their dataset in a Showcase linked from their dataset page.
 
-Dataset publishers will be notified when a new Reuse item has been created that relates to their dataset, so they can decide whether to promote it in their Showcase. Notifications could reuse the existing activity streams, dashboard and email notifications system.
+#### Site maintainers
+Site maintainers will be able to feature Reuse items in a site-wide, top-level Showcase linked from the main navigation. This will be search and filterable and link through to individual Reuse item pages. Site maintainers will need an admin page listing all Reuse items allowing them to promote or remove them if necessary.
 
-### Site owners
-Site owners will be able to feature Reuse items in a site-wide, top-level Showcase linked from the main navigation. This will be search and filterable and link through to individual Reuse item pages. Site owners will need an admin page listing all Reuse items allowing them to promote or remove them if necessary.
+Site maintainers will be notified when a new Reuse item has been submitted/added so they can decide whether to feature it. Notifications could reuse the existing activity streams, dashboard and email notifications system.
+
 
 ### User stories
 
