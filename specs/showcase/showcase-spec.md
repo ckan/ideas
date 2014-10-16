@@ -27,7 +27,7 @@ It's a verb rather than noun and doesn't imply any specific application (it's no
 Site admins and dataset publishers can promote the best S&T items by featuring them in Showcase collections.
 
 ### Site visitor
-Users will be able to search and discover Show & Tell items from dataset pages, and from the top-level site Showcase.
+Users will be able to search for and discover Show & Tell items from dataset pages, and from the top-level site Showcase. Also from Organization and Group pages, if a Showcase collection feature is integrated at that level.
 
 ### All account users
 Users with accounts will be able to create Show & Tell items and relate them to none or many datasets. They will be the owners of the S&T item. A page listing the S&T items they have created will be available from their user profile where they can edit and delete the S&T item.
