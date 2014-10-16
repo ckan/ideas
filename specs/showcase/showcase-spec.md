@@ -34,7 +34,9 @@ Stage 1: Related Items would be pulled out of core and reimplemented as an exten
 
 Stage 2: Some way for the public to submit or directly add reuse items themselves. See below for possible methods of submission. Note that some of these methods may require notification and moderation by a site admin before an item is featured in the context of a dataset page or a site-wide showcase.
 
-Stage 3: A standalone Showcase site where the community of data reusers can add examples of dataset reuse from many separate sources. An extension running on each CKAN site may interact with the standalone Showcase to update its own catalogue of reuses.
+Stage 3: A way for data publishers and group/organization owners to curate their own showcases. A notification and moderation system allowing publishers to know when a reuse has been added that makes use of their dataset, giving data publishers the option to feature the reuse with their dataset.
+
+Stage 4: A standalone Showcase site where the community of data reusers can add examples of dataset reuse from many separate sources. An extension running on each CKAN site may interact with the standalone Showcase to update its own catalogue of reuses.
 
 
 ### Adding Reuse items
