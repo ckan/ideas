@@ -1,6 +1,6 @@
 # CKAN Showcase extension
 
-Allow users to create, edit and delete related item objects that demonstrate data reuse. These objects can relate to none or many datasets. Related items can be promoted by dataset publishers to feature in a showcase collection linked from their dataset page. Similarly, site admins will be able to promote related items to be listed in a top-level, site-wide showcase.
+Allow site maintainers to create, edit and delete related items that demonstrate data reuse. These objects can relate to none or many datasets within the CKAN instance. Related items will feature in a showcase collection linked from the top-level navigation. Similarly, a link from each individual dataset will showcase related items making use of data from that dataset. Examples of reuse may be submitted for inclusion by anyone who visits the site, and selected for inclusion by site maintainers.
 
 Previous discussion of the current situation and a proposed new approach for a Related Item extension can be found here: [github.com/ckan/ckan/wiki/Spec:-Related-Items](https://github.com/ckan/ckan/wiki/Spec:-Related-Items).
 
@@ -24,19 +24,17 @@ Related Items will be broken out of CKAN core into a separate extension called '
 
 
 ### Naming the feature
-It isn't immediately clear that 'Related Items' refer to examples of data reuse. For now, we'll refer to an individual Related Item as a **Reuse**. Reuses can be featured by site maintainers and thus collected into **Showcase** collections. A site-wide top-level showcase would list all featured reuses in the site. A dataset showcase, linked from the each dataset page, would list all reuses associated with that dataset. (Perhaps also grouped with Groups and Organizations.)
+It isn't immediately clear that 'Related Items' refer to examples of data reuse. For now, we'll refer to an individual Related Item as a **Reuse**. Reuses can be added/activated by site maintainers and thus collected into **Showcase** collections. A site-wide top-level showcase would list all featured reuses in the site. A dataset showcase, linked from the each dataset page, would list all reuses associated with that dataset. (Perhaps also grouped with Groups and Organizations.)
 
 
 ### Implement in stages
 The extension could be implemented in stages that build on each other, each stage finishing up a complete and useful feature.
 
-Stage 1: Related Items would be pulled out of core and reimplemented as an extension, giving each item its own page that links to its associated datasets, and each dataset a list of associated reuses. At this point only site maintainers would be able to create reuse items. All newly added items are essentially 'featured' at this stage.
+Stage 1: Related Items would be pulled out of core and reimplemented as an extension, giving each item its own page that links to its associated datasets, and each dataset a list of associated reuses. At this point only site maintainers would be able to create reuse items. All newly created items are publicly viewable from the top-level showcase and from associated datasets.
 
-Stage 2: Some way for the public to submit or directly add reuse items themselves. See below for possible methods of submission. Note that some of these methods may require notification and moderation by a site admin before an item is featured in the context of a dataset page or a site-wide showcase.
+Stage 2: Some way for the public to submit or directly add (inactive) reuse items. See below for possible methods of submission. Note that some of these methods may require notification and moderation by a site admin before an item becomes publicly accessible on the website.
 
-Stage 3: A way for data publishers and group/organization owners to curate their own showcases. A notification and moderation system allowing publishers to know when a reuse has been added that makes use of their dataset, giving data publishers the option to feature the reuse with their dataset.
-
-Stage 4: A standalone Showcase site where the community of data reusers can add examples of dataset reuse from many separate sources. An extension running on each CKAN site may interact with the standalone Showcase to update its own catalogue of reuses.
+Stage 3: A standalone Showcase site where the community of data reusers can add examples of dataset reuse from many separate sources. An extension running on each CKAN site may interact with the standalone Showcase to update its own catalogue of reuses.
 
 
 ### Adding Reuse items
@@ -44,13 +42,13 @@ There are a number of ways to add new Reuses examples to a CKAN instance. These 
 
 1. Directly request submissions and provide an email address or link to the website's general contact form. Site maintainers collect the info and create new Reuse items for the instance.
 
-2. A Reuse submission form (no login required) collects Reuse details and sends it to a moderation queue. A site maintainer will use a simple moderation UI to sort through and publish appropriate submissions.
+2. A reuse submission form (no login required) collects reuse details and creates an inactive Reuse item and sends it to a moderation queue. A site maintainer will use a simple moderation UI to sort through and publish appropriate submissions.
 
-3. Users can create a CKAN account and add their own Reuse examples directly to a moderation queue. Site admins are notified of new reuses and would need to approve them for display with dataset pages and in the site-wide showcase.
+3. Users can create a CKAN account and add their own reuse examples directly to a moderation queue. Site admins are notified of new reuses and would need to approve them for publication on the site.
 
-4. Users can create a CKAN account and add Reuse examples that are published on the site without moderation by a site maintainer. Reuses are community-moderated with a 'Report abuse' flag. This may require a large and active user community.
+4. Users can create a CKAN account and add reuse examples that are published on the site without moderation by a site maintainer. Reuses are community-moderated with a 'Report abuse' flag. This may require a large and active user community.
 
-3 & 4 would allow users to have their own accounts for viewing and potentially administrating their Reuse items.
+3 & 4 would require users to have an account for submitting, and potentially administrating, their reuses.
 
 
 ### Roles
@@ -59,15 +57,15 @@ There are a number of ways to add new Reuses examples to a CKAN instance. These 
 Users will be able to search for and discover reuses from dataset pages, and from the top-level site Showcase. Also from Organization and Group pages, if a Showcase collection feature is integrated at that level.
 
 #### Data reuser
-A data reuser will be able to submit/add Reuse items and relate them to none or many datasets. A data reuser may be able to have a user account that lists they're reuse items.
+A data reuser will be able to submit/add Reuse items and relate them to none or many datasets.
 
 #### Dataset publishers
-Publishers will be able see featured Reuse items associate with their dataset in a Showcase linked from their dataset page.
+Publishers will be able see published Reuse items associate with their dataset in a Showcase linked from their dataset page.
 
 #### Site maintainers
-Site maintainers will be able to feature Reuse items in a site-wide, top-level Showcase linked from the main navigation. This will be search and filterable and link through to individual Reuse item pages. Site maintainers will need an admin page listing all Reuse items allowing them to promote or remove them if necessary.
+Site maintainers will be able to add and publish Reuse items in a site-wide, top-level Showcase linked from the main navigation. This will be search and filterable and link through to individual Reuse item pages. Site maintainers will need an admin page listing all Reuse items allowing them to publish or remove them if necessary.
 
-Site maintainers will be notified when a new Reuse item has been submitted/added so they can decide whether to feature it. Notifications could reuse the existing activity streams, dashboard and email notifications system.
+Site maintainers will be notified when a new Reuse item has been submitted/added so they can decide whether to publish it. Notifications could reuse the existing activity streams, dashboard and email notifications system.
 
 
 ### User stories
