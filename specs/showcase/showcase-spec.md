@@ -63,6 +63,8 @@ Linked from the top-level navigation.
     - Tags
 * Provide search for showcase items [on what criteria? tags, title/description]
 
+![Sketch mockup of showcase index page](http://cl.ly/Y9ez/showcase_index.jpg)
+
 #### Showcase item detail page
 * Display information about an individual showcase item
     - Title
@@ -73,14 +75,14 @@ Linked from the top-level navigation.
         - Select default image for use as Showcase thumbnail
     - Embedded videos (zero or more)
 
-#### Dataset detail page
+![Sketch mockup of showcase detail page](http://cl.ly/Y9cX/showcase_detail.jpg)
+
+#### Dataset detail tab
 To replace the 'Related' link currently available from the dataset pages.
 * A sub-page for each dataset listing all showcase items associated with the dataset.
 * List showcase items (same as Showcase index page).
 
-#### Group/Organization detail page
-* A sub-page for each group/org listing all showcase items associated with datasets belonging to the group/org.
-* List showcase items (same as Showcase index page).
+![Sketch mockup of dataset showcase tab](http://cl.ly/Y9GX/dataset_showcase_tab.jpg)
 
 
 ### Adding Showcase items
