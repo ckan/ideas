@@ -4,6 +4,21 @@ Allow site maintainers to create, edit and delete Showcase objects that demonstr
 
 Previous discussion of the current situation (Related Items) and a proposed new approach for an extension can be found here: [github.com/ckan/ckan/wiki/Spec:-Related-Items](https://github.com/ckan/ckan/wiki/Spec:-Related-Items).
 
+<!-- MarkdownTOC depth=3 autolink=true bracket=round -->
+
+- [Current implementation](#current-implementation)
+    - [Some problems with the current implementation:](#some-problems-with-the-current-implementation)
+- [Proposal](#proposal)
+    - [Naming the feature](#naming-the-feature)
+    - [Implement in stages](#implement-in-stages)
+    - [New pages](#new-pages)
+    - [Adding Showcase items](#adding-showcase-items)
+    - [Roles](#roles)
+    - [User stories](#user-stories)
+
+<!-- /MarkdownTOC -->
+
+
 
 ## Current implementation
 Currently, Related Items exist in CKAN core. A summary of the current technical implementation can be seen here: [github.com/ckan/ckan/wiki/Spec:-Related-Items#summary-of-the-current-implementation](https://github.com/ckan/ckan/wiki/Spec:-Related-Items#summary-of-the-current-implementation).
