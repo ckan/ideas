@@ -1,6 +1,6 @@
 # CKAN Showcase extension
 
-Allow site maintainers to create, edit and delete Showcase objects that demonstrate the use of data from the CKAN instance. For example, in an app, website or visualization, or being written about in an article, report or blog post. These objects can relate to none or many datasets within the CKAN instance. Showcase items will be listed in a Showcase collection linked from the top-level navigation. Similarly, a link from each individual dataset will list Showcase items making use of data from that dataset. Examples of data use may be submitted for inclusion by anyone who visits the site, and selected for inclusion by site maintainers.
+Allow site maintainers to create, edit and delete Showcase objects that demonstrate the use of data from the CKAN instance. For example, in an app, website or visualization, or being written about in an article, report or blog post. These objects can relate to none or many datasets within the CKAN instance. Showcase items will be listed in a Showcase collection linked from the top-level navigation. Similarly, a link from each individual dataset will list Showcase items making use of data from that dataset. Showcase items may be submitted for inclusion by anyone who visits the site, and selected for inclusion by site maintainers.
 
 Previous discussion of the current situation (Related Items) and a proposed new approach for an extension can be found here: [github.com/ckan/ckan/wiki/Spec:-Related-Items](https://github.com/ckan/ckan/wiki/Spec:-Related-Items).
 
@@ -34,7 +34,7 @@ Stage 1: Related Items would be pulled out of core and reimplemented as an exten
 
 Stage 2: Some way for the public to submit or directly add (inactive) Showcase items. See below for possible methods of submission. Note that some of these methods may require notification and moderation by a site admin before an item becomes publicly accessible on the website.
 
-Stage 3: A standalone Showcase site where the community of data users can add examples of dataset use from many separate sources. An extension running on each CKAN site may interact with the standalone Showcase to update its own catalogue of Showcase items.
+Stage 3: A standalone Showcase site where the community of data users can add showcase items from many separate sources. An extension running on each CKAN site may interact with the standalone Showcase to update its own catalogue of Showcase items.
 
 
 ### Adding Showcase items
@@ -72,7 +72,7 @@ Site maintainers will be notified when a new Showcase item has been submitted/ad
 
 These user stories have been taken from [github.com/ckan/ckan/wiki/Spec:-Related-Items#user-stories](https://github.com/ckan/ckan/wiki/Spec:-Related-Items#user-stories)
 
-#### As a Data reuser, I want to...
+#### As a Data user, I want to...
 * show the cool things I've done with a site's data so that my data use reaches a wider audience.
 * be able to associate multiple datasets with each of my data uses so that I can represent all of the datasets I used.
 
