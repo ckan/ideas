@@ -37,6 +37,37 @@ Stage 2: Some way for the public to submit or directly add (inactive) Showcase i
 Stage 3: A standalone Showcase site where the community of data users can add showcase items from many separate sources. An extension running on each CKAN site may interact with the standalone Showcase to update its own catalogue of Showcase items.
 
 
+### New pages
+
+#### Showcase index page
+Linked from the top-level navigation.
+* List all showcase items
+    - Title
+    - Image
+    - Short description
+    - Tags
+* Provide search for showcase items [on what criteria? tags, title/description]
+
+#### Showcase item detail page
+* Display information about an individual showcase item
+    - Title
+    - Link to the item's source page
+    - Longer description
+    - Tags (zero or more)
+    - Images (zero or more)
+        - Select default image for use as Showcase thumbnail
+    - Embedded videos (zero or more)
+
+#### Dataset detail page
+To replace the 'Related' link currently available from the dataset pages.
+* A sub-page for each dataset listing all showcase items associated with the dataset.
+* List showcase items (same as Showcase index page).
+
+#### Group/Organization detail page
+* A sub-page for each group/org listing all showcase items associated with datasets belonging to the group/org.
+* List showcase items (same as Showcase index page).
+
+
 ### Adding Showcase items
 There are a number of possible ways to add items to the Showcase in an CKAN instance. These are listed in order of increasing complexity to implement.
 
