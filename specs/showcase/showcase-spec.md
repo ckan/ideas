@@ -85,6 +85,13 @@ To replace the 'Related' link currently available from the dataset pages.
 ![Sketch mockup of dataset showcase tab](http://cl.ly/Y9GX/dataset_showcase_tab.jpg)
 
 
+#### Showcase create/edit page
+This will be utilised by site maintainers, but perhaps reused for any user who wants to submit a showcase item. See below for more on Adding Showcase items.
+* Entry for all relevant fields
+
+![Sketch mockup of showcase create/edit page](http://cl.ly/Y9VR/showcase_create-edit.jpg)
+
+
 ### Adding Showcase items
 There are a number of possible ways to add items to the Showcase in an CKAN instance. These are listed in order of increasing complexity to implement.
 
