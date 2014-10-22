@@ -87,7 +87,9 @@ To replace the 'Related' link currently available from the dataset pages.
 
 #### Showcase create/edit page
 This will be utilised by site maintainers, but perhaps reused for any user who wants to submit a showcase item. See below for more on Adding Showcase items.
-* Entry for all relevant fields
+* Two-step create process
+    - Create the showcase item
+    - Search and link for datasets
 
 ![Sketch mockup of showcase create/edit page](http://cl.ly/Y9VR/showcase_create-edit.jpg)
 
