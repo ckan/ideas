@@ -41,6 +41,8 @@ Related Items will be broken out of CKAN core into a separate extension called '
 ### Naming the feature
 It isn't immediately clear that 'Related Item' refers to an instance of data being used outside of CKAN. A collection of items is a **Showcase**, with an individual item being referred to as a Showcase item. Hopefully, there will be little need to refer to individual Showcase items within the site, and where it is necessary (tooltips and buttons such as, "Add Item"), the context should make it clear what kind of item is being referred to.
 
+The Showcase feature should be easy to rename in the CKAN configuration and this change applied to all areas of the site where the showcase label is displayed.
+
 
 ### Implement in stages
 The extension could be implemented in stages that build on each other, each stage finishing up a complete and useful feature.
