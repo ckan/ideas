@@ -82,7 +82,7 @@ Perhaps to make it more accessible we can link to this page from the dataset cre
 
 Identifiers: Data Packages are solely identified by the `name` field, which according to the Data Package spec:
 
-> [is a] short url-usable (and preferably human-readable) name of the package. This MUST be lower-case and contain only alphanumeric characters along with ., _ or - characters. It will function as a unique identifier and therefore SHOULD be unique in relation to any registry in which this package will be deposited (and preferably globally unique).
+> [is a] short url-usable (and preferably human-readable) name of the package. This MUST be lower-case and contain only alphanumeric characters along with ., _ or - characters. It will function as a unique identifier and therefore SHOULD be unique in relation to any registry in which this package will be deposited (and preferably globally unique).
 
 We can not assume that these identifiers will be unique and that they will not clash with existing CKAN datasets. We can append stuff to the name but then we need to consider what happens when we reupload the same Data Package (ie to update the dataset).
 
@@ -112,9 +112,10 @@ I think that the JSON files could be generated on the fly, but if performance is
 ### Implementation
 
 Add new core fields to the resource model:
-    * `schema`: a JSON object describing the structure of the resource file, or a URL linking to the schema.
-    * `schemaType`: a string or URI that specifies what is the specification for the schema. 
-    * `schemaVersion`: the version of the spec being used
+
+ * `schema`: a JSON object describing the structure of the resource file, or a URL linking to the schema.
+ * `schemaType`: a string or URI that specifies what is the specification for the schema. 
+ * `schemaVersion`: the version of the spec being used
 
 For all these, and if we are talking about tabular data, I'd default to JSON Table Schema. But these fields are flexible enough that they can be used on other data formats as well.
 
