@@ -15,13 +15,21 @@ Also besides direct support for handling Data Packages, there is a number of are
 
 ## Prior work
 
-Open Knowledge developed a while ago http://datapackager.okfn.org, a tool for creating Data Packages from data files.
+* data.gov.uk will soon publish a feature that allows to download a zipped `datapackage.json` plus data files:
 
-It was implemented in CKAN (as a CKAN [extension](https://github.com/ckan/ckanext-datapackager) that heavily customized some parts of the CKAN UI).
+    https://test.data.gov.uk/dataset/driving-licence-data
 
-It contains functions to translate Data Packages metadata into CKAN datasets and viceversa, but perhaps more interestingly includes logic functions and an interface for modifying the schema for tabular resources:
+* [ckanapi](https://github.com/ckan/ckanapi) has an experimental feature to download all resources from a dataset as a Data Package:
 
-![Schemas](http://i.imgur.com/i5L5oNz.png)
+    ckanapi dump datasets albuquerque -D mydatasets -r http://localhost:5000
+
+* Open Knowledge developed a while ago http://datapackager.okfn.org, a tool for creating Data Packages from data files.
+
+  It was implemented in CKAN (as a CKAN [extension](https://github.com/ckan/ckanext-datapackager) that heavily customized some parts of the CKAN UI).
+
+  It contains functions to translate Data Packages metadata into CKAN datasets and viceversa, but perhaps more interestingly includes logic functions and an interface for modifying the schema for tabular resources:
+
+  ![Schemas](http://i.imgur.com/i5L5oNz.png)
 
 
 
@@ -38,7 +46,7 @@ For achieving this it seems sensible to reuse as much stuff as we can from ckane
 
 The first two points could be implemented either in core or separate extension, but I'd like to propose that the third regarding resource schemas is implemented in core (in a generic form). It seems central enough to all future work around data import, cleaning, etc (eg closer integration with DataStore) to justify it.
 
-## Field mapping    
+## Field mapping
 
 Both for transforming Data Packages into CKAN datasets and to generate Data Packages from CKAN datasets we need to have a good mapping between the two.
 
@@ -53,10 +61,10 @@ Data Packages can have extra fields not present in the CKAN schema:
 * `image`
 * `base`
 * `dataDependencies` (ordering of the hash keys is important)
-* `schemas` 
+* `schemas`
 * Arbitrary fields added to the Data Package
 
-If we don't store the original Data Package somewhere we'll need to store these as extras. 
+If we don't store the original Data Package somewhere we'll need to store these as extras.
 
 As per **resources**,  Data Packages `resources` can point the actual data files using `url` or `path` + `base`, or have the data embedded with a `data` field. (The current spec allows all of them to be present at the same time, which hopefully we can restrict https://github.com/dataprotocols/dataprotocols/issues/223). If Data Packages have `data` embedded we can push it to the DataStore to make it available.
 
@@ -114,17 +122,27 @@ I think that the JSON files could be generated on the fly, but if performance is
 Add new core fields to the resource model:
 
  * `schema`: a JSON object describing the structure of the resource file, or a URL linking to the schema.
- * `schemaType`: a string or URI that specifies what is the specification for the schema. 
- * `schemaVersion`: the version of the spec being used
+ * `schema_type`: a string or URI that specifies what is the specification for the schema.
+ * `schema_version`: the version of the spec being used
 
 For all these, and if we are talking about tabular data, I'd default to JSON Table Schema. But these fields are flexible enough that they can be used on other data formats as well.
 
 Once the changes on the model are in place we will incorporate an enhanced version (or a new one if necessary) of the schema editor mentioned above. This will be able to be accessed by publishers when creating a dataset (if they are adding a tabular data file) or afterwards editing the resource.
 
-
-TODO:
-
 ### Potential issues
+
+Under the bonnet, the schema editor would be only editing the `schema` field of the resource so in terms of auth, loaction of the form, etc is equivalent to editing the resource. It could be added as a link or button to the resource form, which opens the editor in a separate page or an overlay depending on what's easier:
+
+
+![schema field](http://i.imgur.com/KaU6qLU.png)
+
+"Schemas" and schema editor might be not very clear to the average user, we might want to think about a more friendly term.
+
+
+If the resource has already been imported to the DataStore and we alredy know the fields it's easy to populate the editor. For new resources or those not on the DataStore (and again assuming CSV or Excel format) it would be good to show the user the fields and a sample of data. To do that we might need to rethink the process of adding new resources, as we need to parse the file contents first. We could extract this into a separate API action or service, that just peeks into a tabular file and extracts the files and n first records (and maybe tries to guess the types like DataPusher does now)
+
+
+
 
 Future:
 Change DataStore fields according to schema
