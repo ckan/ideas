@@ -22,10 +22,6 @@ Ideas are just issues in the issue tracker.
 
 Here is an alternative "columnar" view on the "open ideas" that is easier to view:
 
-**[Ideas issues in Kanban layout][kanban]**
-
-[kanban]: https://waffle.io/ckan/ideas-and-roadmap
-
 ## Want to propose something?
 
 [Suggest it by creating a new idea "issue" here &raquo;](https://github.com/ckan/ideas-and-roadmap/issues/new)
