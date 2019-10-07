@@ -1,0 +1,79 @@
+There has been some discussion recently on why the CKAN documentation and packages have two web servers (Apache and NGINX) installed as part of an initial CKAN installation. It seems this could be potentially confusing and we should really consolidate these two web server installs into just one.
+
+From the last Dev meeting (Thursday 3rd Oct) discussions had the following options:
+
+1. Drop NGINX
+2. Install NGINX plus uWSGI (ie: the uWSGI native protocol implemented in NGINX to serve Python apps)
+
+*** Option 2 was thought to be the best way to proceed ***
+
+This was some of the conversation on Thursday 3rd Oct
+
+	•	Nginx is really mostly used as a proxy as by default not much is cached by CKAN.
+	•	Maybe make it clearer that this is just a ‘basic suggest install’ to get customers going as ‘full production installations’ can vary considerably
+	•	Do we want to do some kind of survey to ask people how they've deployed so we can get a "typical" deployment?	Has this ever been done before?
+	•	Docker versions plus the Package version of the install will both need to be consistent with the new (updated) documentation
+
+Some thoughts to get the discussions happening:
+
+	•	We need to agree on the latest stable or mainline version or will this be a ‘Prebuilt Ubuntu Package’ from an Ubuntu Repository? This would make sense as it would have been thoroughly tested  
+	•	Do we have an HTTPS option OR do we make this default as everyone should really be using HTTPS these days. You can serve both HTTP and HTTPS requests from within the same virtual server so maybe this is the right idea. However then we would need to provide instructions to install an SSL certificate
+	•	Log file rotation for both the error log and the HTTP log - Perhaps we make sure this gets set up initially
+	•	Testing - I’m there will be a lot of testing to be done, What tests are required? Do we have some sort of testing software or framework already set up to test the Web servers?
+	•	Configure NGINX to automatically start during a reboot
+	•	What NGINX modules should be included by default?  SSL, obviously uWSGI
+
+We maybe could offer a bit more documentation on any advanced (less vanilla) installs like load balancing, session persistence OR maybe just a  link to the official NGINX documentation
+
+——
+For Reference here is the current NGINX config file(s) from two different sources
+
+From Documentation
+proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=cache:30m max_size=250m;
+proxy_temp_path /tmp/nginx_proxy 1 2;
+
+server {
+    client_max_body_size 100M;
+    location / {
+        proxy_pass http://127.0.0.1:8080/;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        proxy_cache cache;
+        proxy_cache_bypass $cookie_auth_tkt;
+        proxy_no_cache $cookie_auth_tkt;
+        proxy_cache_valid 30m;
+        proxy_cache_key $host$scheme$proxy_host$request_uri;
+        # In emergency comment out line to force caching
+        # proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+    }
+
+}
+
+From an installed NGINX web server (from a package install)
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+   
+
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+        ssl_prefer_server_ciphers on;
+
+For reference here is the Open Knowledge Docker NGINX config options
+--plugins http,python,gevent				# obvious plugins
+--socket /tmp/uwsgi.sock 					# use a socket for communication
+--uid 92 								# specific User ID for the process
+--gid 92 								# Specific Group ID for the process
+--http :5000 							# Listening on port 5000 (http protocol)
+--master 								# built-in prefork+threading multi-worker management mode
+--enable-threads 							# maintain Python threads support without starting multiple threads for your application
+--paste config:/srv/app/production.ini 	# —paste is a “paste compatible framework” like pylons
+--paste-logger 
+--lazy-apps 								# will take longer to load but will be more consistent (load per worker, rather than load to first worker then fork copies)
+--gevent 2000 							# gevent is a plugin, ( 2000 is the number of async cores to spawn)
+-p 2 
+-L
