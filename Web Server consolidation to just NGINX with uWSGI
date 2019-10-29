@@ -77,3 +77,131 @@ For reference here is the Open Knowledge Docker NGINX config options
 --gevent 2000 							# gevent is a plugin, ( 2000 is the number of async cores to spawn)
 -p 2 
 -L
+
+-------------------------------------------Simple Flaskapp and NGINX/uWSGI install---------------------------------------
+
+Deploying a source install (NGINX plus uWSGI steps to be added)
+
+The CKAN team have consolidated the various Web Server installation instructions into one configuration which we think will satisfy the majority of user needs: NGINX with uWSGI
+This guide explains how to deploy a simple Flask-based application using Nginx and uWSGI on an Ubuntu server. 
+These instructions have been tested on Ubuntu 18.04.
+The NGINX Web Server communicates to a uWSGI Server through a Linux socket file. All client HTTP requests are simply passed through to an application entry point via this socket - this entry point will then call the application - a proper diagram will follow :-
+￼
+This assumes you have installed the following packages:
+sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools python3-venv
+
+The application root is: /path/to/flaskapp ($APPROOT)
+
+1. Install Nginx
+Install Nginx (a web server) which will proxy the content from Apache and add a layer of caching:
+sudo apt install nginx
+sudo ufw allow ’Nginx HTTP’ (ufw = ubuntu firewall)
+sudo systemctl start nginx
+
+2. Install uwsgi
+cd; mkdir flaskapp; cd flaskapp
+python3.6 -m venv flaskenv
+source flaskenv/bin/activate
+pip install wheel
+pip install uwsgi flask
+pip install uwsgi
+
+3. Create Flask Application (flaskapp.py)
+vi ~/flaskapp/flaskapp.py
+
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "<h1 style='color:blue'>Hallo FlaskApp!!!</h1>"
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
+
+python flaskapp.py
+sudo ufw allow 5000
+(now test browser access to http://<ip address>:5000/
+
+4. Create WSGI Entry Point  (wsgi.py)
+vi $APPROOT/wsgi.py 
+
+from flaskapp import app
+
+if __name__ == "__main__":
+    app.run()
+
+5. Create the uwsgi ini file
+vi $APPROOT/flaskapp.ini
+
+[uwsgi]
+module = wsgi:app			
+master = true
+processes = 5
+socket = flaskapp.sock
+chmod-socket = 660
+vacuum = true
+die-on-term = true
+
+6. Create the uwsgi system service
+sudo vi /etc/systemd/system/flaskapp.service
+
+[Unit]
+Description=uWSGI instance to serve the CKAN software
+After=network.target
+
+[Service]
+User=brett
+Group=www-data
+WorkingDirectory=/path/to/CKAN
+Environment="PATH=/path/to/CKAN/virtualenv/bin"
+ExecStart=/path/to/CKAN/virtualenv/bin/uwsgi --ini ckan_uwsgi.ini
+
+[Install]
+WantedBy=multi-user.targetbin
+
+sudo systemctl start ckan_uwsgi
+sudo systemctl enable ckan_uwsgi
+sudo systemctl restart ckan_uwsgi
+
+7. Create a site-available service
+sudo vi /etc/nginx/sites-available/flaskapp
+
+server {
+    listen 80;
+    server_name 192.168.178.75 test-nginx;
+
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:/home/brett/flaskapp/flaskapp.sock;
+    }
+}
+
+sudo ln -s /etc/nginx/sites-available/flaskapp /etc/nginx/sites-enabled
+sudo nginx -t					#test config files
+sudo systemctl restart nginx
+sudo ufw allow 'Nginx Full'
+
+8. Create the Nginx config file
+Here are the Nginx config file entries:
+proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=cache:30m max_size=250m;
+proxy_temp_path /tmp/nginx_proxy 1 2;
+
+server {
+    client_max_body_size 100M;
+    location / {
+        proxy_pass http://127.0.0.1:8080/;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        proxy_cache cache;
+        proxy_cache_bypass $cookie_auth_tkt;
+        proxy_no_cache $cookie_auth_tkt;
+        proxy_cache_valid 30m;
+        proxy_cache_key $host$scheme$proxy_host$request_uri;
+        # In emergency comment out line to force caching
+        # proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+    }
+
+}
+
+NB: The NGINX web server should be configured to serve ‘static’ files - all other requests should go to the uWSGI server
