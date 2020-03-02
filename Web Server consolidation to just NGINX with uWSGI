@@ -1,207 +1,230 @@
-There has been some discussion recently on why the CKAN documentation and packages have two web servers (Apache and NGINX) installed as part of an initial CKAN installation. It seems this could be potentially confusing and we should really consolidate these two web server installs into just one.
+These instructions are the current state (March 1 2020) of the proposed Web Server consolidation with CKAN 2.9 / 3.0
 
-From the last Dev meeting (Thursday 3rd Oct) discussions had the following options:
+These have been tested with PasteDeploy's loadapp which will be replaced (soon) with Werkzeug
 
-1. Drop NGINX
-2. Install NGINX plus uWSGI (ie: the uWSGI native protocol implemented in NGINX to serve Python apps)
 
-*** Option 2 was thought to be the best way to proceed ***
+==========================
+Deploying a source install
+==========================
 
-This was some of the conversation on Thursday 3rd Oct
+Once you've installed CKAN from source by following the instructions in “Install From Source”, 
+you can follow these instructions to deploy your CKAN site using a production web server (Nginx) 
+plus one of two Python Web Server Gateway Interface (WSGI) configurations (uWSGI or gunicorn), 
+so that it's available to the Internet.
 
-	•	Nginx is really mostly used as a proxy as by default not much is cached by CKAN.
-	•	Maybe make it clearer that this is just a ‘basic suggest install’ to get customers going as ‘full production installations’ can vary considerably
-	•	Do we want to do some kind of survey to ask people how they've deployed so we can get a "typical" deployment?	Has this ever been done before?
-	•	Docker versions plus the Package version of the install will both need to be consistent with the new (updated) documentation
-
-Some thoughts to get the discussions happening:
-
-	•	We need to agree on the latest stable or mainline version or will this be a ‘Prebuilt Ubuntu Package’ from an Ubuntu Repository? This would make sense as it would have been thoroughly tested  
-	•	Do we have an HTTPS option OR do we make this default as everyone should really be using HTTPS these days. You can serve both HTTP and HTTPS requests from within the same virtual server so maybe this is the right idea. However then we would need to provide instructions to install an SSL certificate
-	•	Log file rotation for both the error log and the HTTP log - Perhaps we make sure this gets set up initially
-	•	Testing - I’m there will be a lot of testing to be done, What tests are required? Do we have some sort of testing software or framework already set up to test the Web servers?
-	•	Configure NGINX to automatically start during a reboot
-	•	What NGINX modules should be included by default?  SSL, obviously uWSGI
-
-We maybe could offer a bit more documentation on any advanced (less vanilla) installs like load balancing, session persistence OR maybe just a  link to the official NGINX documentation
-
-——
-For Reference here is the current NGINX config file(s) from two different sources
-
-From Documentation
-proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=cache:30m max_size=250m;
-proxy_temp_path /tmp/nginx_proxy 1 2;
-
-server {
-    client_max_body_size 100M;
-    location / {
-        proxy_pass http://127.0.0.1:8080/;
-        proxy_set_header X-Forwarded-For $remote_addr;
-        proxy_set_header Host $host;
-        proxy_cache cache;
-        proxy_cache_bypass $cookie_auth_tkt;
-        proxy_no_cache $cookie_auth_tkt;
-        proxy_cache_valid 30m;
-        proxy_cache_key $host$scheme$proxy_host$request_uri;
-        # In emergency comment out line to force caching
-        # proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
-    }
-
-}
-
-From an installed NGINX web server (from a package install)
-        sendfile on;
-        tcp_nopush on;
-        tcp_nodelay on;
-        keepalive_timeout 65;
-        types_hash_max_size 2048;
+Please note with CKAN 2.9+ (or maybe CKAN 3.0+) we have standardised on using SSL between all 
+components ie: Nginix and WSGI servers
    
+If you installed CKAN from package you don't need to follow this section, your site is already 
+deployed using Nginux and uWSGI as described below.
 
-        include /etc/nginx/mime.types;
-        default_type application/octet-stream;
+CKAN can be used with two different web server and deployment configuration options:
 
-        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
-        ssl_prefer_server_ciphers on;
+NGINX with uWSGI
+NGINX with gunicorn
 
-For reference here is the Open Knowledge Docker NGINX config options
---plugins http,python,gevent				# obvious plugins
---socket /tmp/uwsgi.sock 					# use a socket for communication
---uid 92 								# specific User ID for the process
---gid 92 								# Specific Group ID for the process
---http :5000 							# Listening on port 5000 (http protocol)
---master 								# built-in prefork+threading multi-worker management mode
---enable-threads 							# maintain Python threads support without starting multiple threads for your application
---paste config:/srv/app/production.ini 	# —paste is a “paste compatible framework” like pylons
---paste-logger 
---lazy-apps 								# will take longer to load but will be more consistent (load per worker, rather than load to first worker then fork copies)
---gevent 2000 							# gevent is a plugin, ( 2000 is the number of async cores to spawn)
--p 2 
--L
 
--------------------------------------------Simple Flaskapp and NGINX/uWSGI install---------------------------------------
+This guide explains how to deploy CKAN using either uWSGI or gunicorn, proxied with Nginx 
+on an Ubuntu server. These instructions have been tested on Ubuntu 18.04 and 16.04.
 
-Deploying a source install (NGINX plus uWSGI steps to be added)
+This documentation uses port 8000 as the port for either uWSGI or gunicorn
 
-The CKAN team have consolidated the various Web Server installation instructions into one configuration which we think will satisfy the majority of user needs: NGINX with uWSGI
-This guide explains how to deploy a simple Flask-based application using Nginx and uWSGI on an Ubuntu server. 
-These instructions have been tested on Ubuntu 18.04.
-The NGINX Web Server communicates to a uWSGI Server through a Linux socket file. All client HTTP requests are simply passed through to an application entry point via this socket - this entry point will then call the application - a proper diagram will follow :-
-￼
-This assumes you have installed the following packages:
-sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools python3-venv
+Log file location and port allocation will change to something more appropriate
 
-The application root is: /path/to/flaskapp ($APPROOT)
-
+----------------
 1. Install Nginx
-Install Nginx (a web server) which will proxy the content from Apache and add a layer of caching:
-sudo apt install nginx
-sudo ufw allow ’Nginx HTTP’ (ufw = ubuntu firewall)
-sudo systemctl start nginx
+----------------
 
-2. Install uwsgi
-cd; mkdir flaskapp; cd flaskapp
-python3.6 -m venv flaskenv
-source flaskenv/bin/activate
-pip install wheel
-pip install uwsgi flask
-pip install uwsgi
+Install Nginx_ (a web server) which will proxy the content from one of the WSGI servers and add a layer of caching::
 
-3. Create Flask Application (flaskapp.py)
-vi ~/flaskapp/flaskapp.py
+    sudo apt-get install nginx
 
-from flask import Flask
-app = Flask(__name__)
 
-@app.route("/")
-def hello():
-    return "<h1 style='color:blue'>Hallo FlaskApp!!!</h1>"
+----------------------------------------
+2. Install and configure the WSGI Server 
+----------------------------------------
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0')
 
-python flaskapp.py
-sudo ufw allow 5000
-(now test browser access to http://<ip address>:5000/
+Create the /etc/ckan/default/wsgi.py file which will be used by both uWSGI and gunicorn
 
-4. Create WSGI Entry Point  (wsgi.py)
-vi $APPROOT/wsgi.py 
 
-from flaskapp import app
 
-if __name__ == "__main__":
-    app.run()
+    import os
+    from ckan.config.middleware import make_app as loadapp
+    from ckan.cli import load_config
 
-5. Create the uwsgi ini file
-vi $APPROOT/flaskapp.ini
+    config_filepath = '/etc/ckan/default/ckan.ini'
+    conf = load_config(config_filepath)
+    app = loadapp(conf.global_conf, **conf.local_conf)
 
-[uwsgi]
-module = wsgi:app			
-master = true
-processes = 5
-socket = flaskapp.sock
-chmod-socket = 660
-vacuum = true
-die-on-term = true
+This will be used by both the uWSGI configuration or the gunicorn configuration
 
-6. Create the uwsgi system service
-sudo vi /etc/systemd/system/flaskapp.service
+Now there is a choice of what to do next. Either use uWSGI or gunicorn - both are supported
 
-[Unit]
-Description=uWSGI instance to serve the CKAN software
-After=network.target
+a. Install uWSGI
 
-[Service]
-User=brett
-Group=www-data
-WorkingDirectory=/path/to/CKAN
-Environment="PATH=/path/to/CKAN/virtualenv/bin"
-ExecStart=/path/to/CKAN/virtualenv/bin/uwsgi --ini ckan_uwsgi.ini
+    pip install uwsgi
 
-[Install]
-WantedBy=multi-user.targetbin
+For reference the uWSGI command is as follows: /usr/lib/ckan/ckan-py3/bin/uwsgi -i /etc/ckan/default/ckan-uwsgi.ini
 
-sudo systemctl start ckan_uwsgi
-sudo systemctl enable ckan_uwsgi
-sudo systemctl restart ckan_uwsgi
+Create the /etc/ckan/default/ckan-uwsgi.ini file
 
-7. Create a site-available service
-sudo vi /etc/nginx/sites-available/flaskapp
 
-server {
-    listen 80;
-    server_name 192.168.178.75 test-nginx;
+    https           =  0.0.0.0:8000,/etc/ckan/default/localhost.crt,/etc/ckan/default/localhost.key
+    uid             =  apache
+    guid            =  apache
+    wsgi-file       =  /etc/ckan/default/wsgi.py
+    chdir           =  /usr/lib/ckan/ckan-py3
+    virtualenv      =  /usr/lib/ckan/ckan-py3
+    module          =  wsgi:application
+    master          =  true
+    pidfile         =  /tmp/%n.pid
+    harakiri        =  50
+    max-requests    =  5000
+    vacuum          =  true
+    callable        =  app
 
-    location / {
-        include uwsgi_params;
-        uwsgi_pass unix:/home/brett/flaskapp/flaskapp.sock;
+b. Install gunicorn
+
+    pip install gunicorn
+
+For reference the gunicorn command is as follows: /usr/lib/ckan/ckan-py3/bin/gunicorn -c /etc/ckan/default/ckan-gunicorn.py wsgi:app
+
+Create the /etc/ckan/default/ckan-gunicorn.py file
+
+
+    pidfile = '/tmp/gunicorn.pid'
+    chdir = '/etc/ckan/default'
+    errorlog = '/etc/ckan/default/gunicorn2.ERR'
+    accesslog = '/etc/ckan/default/gunicorn2.ACCESS'
+    loglevel = 'debug'
+    bind = '127.0.0.1:8002'
+    daemon = True
+    workers = 4
+    worker_class = 'sync'
+    threads = 2
+    user = 'root'
+    group = 'root'
+    keyfile = '/etc/ckan/default/localhost.key'
+    certfile = '/etc/ckan/default/localhost.crt'
+    ssl_version = 'TLSv1_2'
+    
+
+-----------------------------------------------------------------------------
+3. Install and configure Supervisor to monitor and control uWSGI and gunicorn
+-----------------------------------------------------------------------------
+    
+    apt-get install supervisor
+
+    service supervisor enable
+    service supervisor restart
+
+
+a. uWSGI
+
+The config file is: /etc/supervisor/conf.d/ckan-uwsgi.conf
+
+    [program:ckan-uwsgi]
+
+    command=/usr/lib/ckan/ckan-py3/bin/uwsgi -i /etc/ckan/default/ckan-uwsgi.ini
+
+    ; Start just a single worker. Increase this number if you have many or
+    ; particularly long running background jobs.
+    numprocs=1
+    process_name=%(program_name)s-%(process_num)02d
+
+    ; Log files - change this to point to the existing CKAN log files
+    stdout_logfile=/etc/ckan/default/uwsgi.OUT
+    stderr_logfile=/etc/ckan/default/uwsgi.ERR
+
+    ; Make sure that the worker is started on system start and automatically
+    ; restarted if it crashes unexpectedly.
+    autostart=true
+    autorestart=true
+
+    ; Number of seconds the process has to run before it is considered to have
+    ; started successfully.
+    startsecs=10
+
+    ; Need to wait for currently executing tasks to finish at shutdown.
+    ; Increase this if you have very long running tasks.
+    stopwaitsecs = 600
+
+    ; Required for uWSGI as it does not obey SIGTERM.
+    stopsignal=QUIT
+
+b. gunicorn
+
+The config file is: /etc/supervisor/conf.d/ckan-gunicorn.conf
+
+    [program:ckan-gunicorn]
+
+    command=/usr/lib/ckan/ckan-py3/bin/gunicorn -c /etc/ckan/default/ckan-gunicorn.py wsgi:app
+
+    ; Start just a single worker. Increase this number if you have many or
+    ; particularly long running background jobs.
+    numprocs=1
+    process_name=%(program_name)s-%(process_num)02d
+
+    ; Log files - change this to point to the existing CKAN log files
+    stdout_logfile=/etc/ckan/default/gunicorn.OUT
+    stderr_logfile=/etc/ckan/default/gunicorn.ERR
+
+    ; Make sure that the worker is started on system start and automatically
+    ; restarted if it crashes unexpectedly.
+    autostart=true
+    autorestart=true
+
+    ; Number of seconds the process has to run before it is considered to have
+    ; started successfully.
+    startsecs=10
+
+    ; Need to wait for currently executing tasks to finish at shutdown.
+    ; Increase this if you have very long running tasks.
+    stopwaitsecs = 600
+
+    ; Required for uWSGI as it does not obey SIGTERM.
+    stopsignal=QUIT    
+
+Once one of these files has been created you need to restart supervisor and then you can ckeck the status if needed
+
+    service supervisor restart
+    service supervisor status
+
+You will now see either uWSGI or gunicorn processes running
+
+-------------------------------
+4. Create the Nginx config file
+-------------------------------
+
+Create your site's Nginx config file at |nginx_config_file|, with the
+following contents:
+
+    proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=cache:30m max_size=250m;
+    proxy_temp_path /tmp/nginx_proxy 1 2;
+
+    server {
+        listen 443 ssl;
+        listen [::]:443;
+        client_max_body_size 100M;
+        ssl on;
+        ssl_certificate      /etc/ckan/default/localhost.crt;
+        ssl_certificate_key  /etc/ckan/default/localhost.key;
+        ssl_protocols        TLSv1 TLSv1.1 TLSv1.2;
+
+        access_log /var/log/nginx/ckan-access.log;
+        error_log /var/log/nginx/ckan-error.log;
+        location / {
+            proxy_pass https://127.0.0.1:8000/;
+            proxy_set_header X-Forwarded-For $remote_addr;
+            proxy_set_header Host $host;
+            proxy_cache cache;
+            proxy_cache_bypass $cookie_auth_tkt;
+            proxy_no_cache $cookie_auth_tkt;
+            proxy_cache_valid 30m;
+            proxy_cache_key $host$scheme$proxy_host$request_uri;
+            # In emergency comment out line to force caching
+            # proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+        }
+
     }
-}
-
-sudo ln -s /etc/nginx/sites-available/flaskapp /etc/nginx/sites-enabled
-sudo nginx -t					#test config files
-sudo systemctl restart nginx
-sudo ufw allow 'Nginx Full'
-
-8. Create the Nginx config file
-Here are the Nginx config file entries:
-proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=cache:30m max_size=250m;
-proxy_temp_path /tmp/nginx_proxy 1 2;
-
-server {
-    client_max_body_size 100M;
-    location / {
-        proxy_pass http://127.0.0.1:8080/;
-        proxy_set_header X-Forwarded-For $remote_addr;
-        proxy_set_header Host $host;
-        proxy_cache cache;
-        proxy_cache_bypass $cookie_auth_tkt;
-        proxy_no_cache $cookie_auth_tkt;
-        proxy_cache_valid 30m;
-        proxy_cache_key $host$scheme$proxy_host$request_uri;
-        # In emergency comment out line to force caching
-        # proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
-    }
-
-}
-
-NB: The NGINX web server should be configured to serve ‘static’ files - all other requests should go to the uWSGI server
