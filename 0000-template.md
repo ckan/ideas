@@ -1,8 +1,11 @@
+# {Title}
+
 - Start Date: (fill me in with today's date, YYYY-MM-DD)
 - Author: (author names)
 - Target Major Version: (2.x / 3.x)
 - Reference Issues: (fill in existing related issues, if any)
 - Implementation PR: (leave this empty)
+- Status: (Draft, Review, Wontfix, Implemented)
 
 # Summary
 
@@ -40,7 +43,7 @@ What other designs have been considered? What is the impact of not doing this?
 
 # Adoption strategy
 
-If we implement this proposal, how will existing Vue developers adopt it? Is this a breaking change? Can we write a codemod? Can we provide a runtime adapter library for the original API it replaces? How will this affect other projects in the CKAN ecosystem?
+If we implement this proposal, how will existing developers adopt it? Is this a breaking change? Can we write a codemod? Can we provide a runtime adapter library for the original API it replaces? How will this affect other projects in the CKAN ecosystem?
 
 # Unresolved questions
 
