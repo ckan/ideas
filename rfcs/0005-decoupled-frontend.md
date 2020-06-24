@@ -3,7 +3,7 @@
 - Start Date: 2020-06-09
 - Author: Rufus Pollock
 - Target Major Version: >= 2.8
-- Reference Issues:
+- Reference Issues: https://github.com/ckan/ideas/issues/250
 - Implementation PR: 
 
 # Summary
