@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Don't create an issue in this repo
+    url: https://github.com/ckan/ckan/discussions
+    about: Please create a discussion in the main CKAN repo instead. We are deprecating the ideas repo.
