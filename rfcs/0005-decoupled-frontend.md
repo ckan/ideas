@@ -19,7 +19,7 @@ In addition we recommend (though it is not an essential to the core point of dec
 
 # Basic Example
 
-See https://github.com/datopian/portal for an in progress implementation using React + Next.js.
+See https://github.com/datopian/portal.js for an in progress implementation using React + Next.js.
 
 # Motivation
 
@@ -38,7 +38,7 @@ Two primary motivations:
 
 # Approach
 
-See WIP here: https://github.com/datopian/portal and esp MVP issue: https://github.com/datopian/portal/issues/9 and https://github.com/datopian/portal/issues/16
+See WIP here: https://github.com/datopian/portal.js
 
 Some key points:
 
